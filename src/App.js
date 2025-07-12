@@ -79,9 +79,7 @@ const App = () => {
             <Input placeholder="Nhập mã Task" />
           </Form.Item>
 
-          <Form.Item name="companyId" label="Company ID">
-            <Input placeholder="Nhập Company ID" />
-          </Form.Item>
+          
 
           <Form.Item name="token" label="Token Đăng Nhập">
             <Input.Password placeholder="Nhập Token" />
