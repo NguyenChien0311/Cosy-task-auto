@@ -9,15 +9,15 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   // Gọi API qua CORS proxy
-  const findTaskMember = async ({ taskId, token, companyId }) => {
+  const findTaskMember = async ({ taskId, token }) => {
     setLoading(true);
-  
+
     try {
       const response = await fetch("/api/task-member", {
         method: "POST",
         headers: {
           Authorization: `JWT ${token}`,
-          Companyid: companyId,
+          Companyid: '',
           "Content-Type": "application/json",
           Accept: "application/json",
           Namespace: "CMS",
@@ -28,15 +28,15 @@ const App = () => {
           taskId: taskId,
         }),
       });
-  
+
       const data = await response.json();
       console.log('data: ', data);
       setLoading(false);
-  
+
       if (!response.ok) {
         throw new Error(`Lỗi API: ${data?.message || "Không rõ nguyên nhân"}`);
       }
-  
+
       return data;
     } catch (error) {
       setLoading(false);
@@ -44,8 +44,8 @@ const App = () => {
       throw error;
     }
   };
-  
-  
+
+
   const handleFindTask = async () => {
     const { taskId, token, companyId } = form.getFieldsValue();
 
@@ -79,7 +79,7 @@ const App = () => {
             <Input placeholder="Nhập mã Task" />
           </Form.Item>
 
-          
+
 
           <Form.Item name="token" label="Token Đăng Nhập">
             <Input.Password placeholder="Nhập Token" />

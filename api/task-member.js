@@ -1,17 +1,18 @@
 // /api/task-member.js
 export default async function handler(req, res) {
+    console.log('req: ', req);
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Only POST is allowed" });
     }
   
-    const { taskId, token, companyId } = req.body;
+    const { taskId, token } = req.body;
   
     try {
       const response = await fetch("https://api.cosyfoto.com/", {
         method: "POST",
         headers: {
           Authorization: `JWT ${token}`,
-          Companyid: companyId,
+          Companyid: '',
           "Content-Type": "application/json",
           Accept: "application/json",
           Namespace: "CMS",
