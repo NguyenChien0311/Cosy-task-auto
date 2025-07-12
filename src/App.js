@@ -13,7 +13,7 @@ const App = () => {
     setLoading(true);
   
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/api/task-member", {
         method: "POST",
         headers: {
           Authorization: `JWT ${token}`,
