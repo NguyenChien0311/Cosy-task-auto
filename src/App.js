@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Input, Button, Form, Card, message, Modal, Spin } from "antd";
 import "antd/dist/reset.css";
+import axios from "axios";
 
 const App = () => {
   const [form] = Form.useForm();
@@ -11,32 +12,29 @@ const App = () => {
   // Gọi API qua CORS proxy
   const findTaskMember = async ({ taskId, token, companyId }) => {
     setLoading(true);
-  
+
     try {
-      const response = await fetch("https://api.cosyfoto.com/", {
-        method: "POST",
-        headers: {
-          Authorization: `JWT ${token}`,
-          Companyid: companyId,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Namespace: "CMS",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        "https://api.cosyfoto.com/",
+        {
           m: "taskMember",
           fn: "get-list-member",
           taskId: taskId,
-        }),
-      });
-  
-      const data = await response.json();
-      console.log('data: ', data);
+        },
+        {
+          headers: {
+            Authorization: `JWT ${token}`,
+            Companyid: companyId,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Namespace: "CMS",
+          },
+        }
+      );
+
+      const data = response.data;
+      console.log("data:", data);
       setLoading(false);
-  
-      if (!response.ok) {
-        throw new Error(`Lỗi API: ${data?.message || "Không rõ nguyên nhân"}`);
-      }
-  
       return data;
     } catch (error) {
       setLoading(false);
@@ -44,8 +42,9 @@ const App = () => {
       throw error;
     }
   };
-  
-  
+
+
+
   const handleFindTask = async () => {
     const { taskId, token, companyId } = form.getFieldsValue();
 
